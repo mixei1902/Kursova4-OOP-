@@ -1,31 +1,47 @@
-def filter_vacancies(vacancies, ключевые_слова):
-    return [вакансия for вакансия in vacancies if
-            any(ключ.lower() in вакансия['description'].lower() for ключ in ключевые_слова)]
+def filter_vacancies(vacancies, filter_words):
+    return [vacancy for vacancy in vacancies if
+            any(word.lower() in vacancy.get['description'].lower() for word in filter_words)]
 
 
-def get_vacancies_by_salary(vacancies, диапазон_зарплат):
-    if not диапазон_зарплат:
+# def filter_vacancies(vacancies_list, filter_words):
+# """
+# Filters vacancies based on specified filter words.
+#
+# Args:
+#     vacancies_list (list): List of dictionaries containing vacancy information.
+#     filter_words (list): List of keywords for filtering.
+#
+# Returns:
+#     list: Filtered list of vacancies.
+# """
+# filter_words_lower = [word.lower() for word in filter_words]
+# return [vacancy for vacancy in vacancies_list if
+# any(word in vacancy.get('description', '').lower() for word in filter_words_lower)]
+
+
+def get_vacancies_by_salary(vacancies, salary_range):
+    if not salary_range:
         return vacancies
-    значения_зарплаты = диапазон_зарплат.split('-')
-    if len(значения_зарплаты) == 1:
-        мин_зарплата = макс_зарплата = int(значения_зарплаты[0])
-    elif len(значения_зарплаты) == 2:
-        мин_зарплата, макс_зарплата = map(int, значения_зарплаты)
+    salary_range = salary_range.split('-')
+    if len(salary_range) == 1:
+        min_salary = max_salary = int(salary_range[0])
+    elif len(salary_range) == 2:
+        min_salary, max_salary = map(int, salary_range)
     else:
         print("Неверный формат диапазона зарплат.")
         return vacancies
 
-    return [вакансия for вакансия in vacancies if
-            вакансия.get('salary_from', 0) >= мин_зарплата and вакансия.get('salary_from',
-                                                                            float('inf')) <= макс_зарплата]
+    return [vacancy for vacancy in vacancies if
+            vacancy.get('salary_from', 0) >= min_salary and vacancy.get('salary_from',
+                                                                        float('inf')) <= max_salary]
 
 
 def sort_vacancies(vacancies):
-    return sorted(vacancies, key=lambda вакансия: вакансия.get('salary_from', 0), reverse=True)
+    return sorted(vacancies, key=lambda vacancy: vacancy.get('salary_from', 0), reverse=True)
 
 
-def get_top_vacancies(vacancies, верхняя_граница):
-    return vacancies[:верхняя_граница]
+def get_top_vacancies(vacancies, top_n):
+    return vacancies[:top_n]
 
 
 def print_vacancies(vacancies):
@@ -39,4 +55,3 @@ def print_vacancies(vacancies):
             print()
     else:
         print("Нет подходящих вакансий")
-
