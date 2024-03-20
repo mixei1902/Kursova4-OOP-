@@ -1,25 +1,12 @@
 def filter_vacancies(vacancies, filter_words):
+    """Фильтрует вакансии на основе указанных ключевых слов:"""
     return [vacancy for vacancy in vacancies if
-            any(word.lower() in vacancy.get['description'].lower() for word in filter_words)]
+            any(word.lower() in vacancy.get('description', '').lower() for word in filter_words)]
 
-
-# def filter_vacancies(vacancies_list, filter_words):
-# """
-# Filters vacancies based on specified filter words.
-#
-# Args:
-#     vacancies_list (list): List of dictionaries containing vacancy information.
-#     filter_words (list): List of keywords for filtering.
-#
-# Returns:
-#     list: Filtered list of vacancies.
-# """
-# filter_words_lower = [word.lower() for word in filter_words]
-# return [vacancy for vacancy in vacancies_list if
-# any(word in vacancy.get('description', '').lower() for word in filter_words_lower)]
 
 
 def get_vacancies_by_salary(vacancies, salary_range):
+    """Фильтрация вакансий на основе диапазона зарплат"""
     if not salary_range:
         return vacancies
     salary_range = salary_range.split('-')
@@ -32,15 +19,16 @@ def get_vacancies_by_salary(vacancies, salary_range):
         return vacancies
 
     return [vacancy for vacancy in vacancies if
-            vacancy.get('salary_from', 0) >= min_salary and vacancy.get('salary_from',
-                                                                        float('inf')) <= max_salary]
+            vacancy.get('salary_from', 0) >= min_salary and vacancy.get('salary_from', float('inf')) <= max_salary]
 
 
 def sort_vacancies(vacancies):
+    """Сортирует вакансии на основе зарплаты в порядке убывания"""
     return sorted(vacancies, key=lambda vacancy: vacancy.get('salary_from', 0), reverse=True)
 
 
 def get_top_vacancies(vacancies, top_n):
+    """Возвращает N вакансий из списка"""
     return vacancies[:top_n]
 
 

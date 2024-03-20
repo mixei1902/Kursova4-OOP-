@@ -1,10 +1,11 @@
 from src.APIHeadHunter import HeadHunterAPI
-from src.vacancy import Vacancy
-from src.utils import print_vacancies
 from src.utils import filter_vacancies, get_vacancies_by_salary, sort_vacancies, get_top_vacancies
+from src.utils import print_vacancies
+from src.vacancy import Vacancy
+
 
 def user_interaction():
-    platforms = ["HeadHunter"]
+    # platforms = ["HeadHunter"]
     search_query = input("Введите поисковый запрос: ")
     top_n = int(input("Введите количество вакансий для вывода в топ N: "))
     filter_words = input("Введите ключевые слова для фильтрации вакансий: ").split()
@@ -27,7 +28,8 @@ def user_interaction():
                 else:
                     salary_from = 'Зарплата не указана'
                 description = vacancy_info.get('description', 'Описание отсутствует')
-                vacancies_list.append({'name': name, 'alternate_url': alternate_url, 'salary_from': salary_from, 'description': description})
+                vacancies_list.append({'name': name, 'alternate_url': alternate_url, 'salary_from': salary_from,
+                                       'description': description})
             elif isinstance(vacancy_info, Vacancy):
                 vacancies_list.append(vacancy_info)
 
