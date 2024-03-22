@@ -1,3 +1,4 @@
+import json
 from src.APIHeadHunter import HeadHunterAPI
 from src.utils import filter_vacancies, get_vacancies_by_salary, sort_vacancies, get_top_vacancies
 from src.utils import print_vacancies
@@ -13,8 +14,7 @@ def user_interaction():
 
     hh_api = HeadHunterAPI()
     hh_vacancies = hh_api.get_vacancies(search_query)
-
-    print("Ответ API:", hh_vacancies)
+    print(hh_vacancies)# список формируется
 
     if hh_vacancies and 'items' in hh_vacancies:
         vacancies_list = []
@@ -28,8 +28,8 @@ def user_interaction():
                 else:
                     salary_from = 'Зарплата не указана'
                 description = vacancy_info.get('description', 'Описание отсутствует')
-                vacancies_list.append({'name': name, 'alternate_url': alternate_url, 'salary_from': salary_from,
-                                       'description': description})
+                vacancy = Vacancy(name, alternate_url, salary_from, description)
+                vacancies_list.append(vacancy)
             elif isinstance(vacancy_info, Vacancy):
                 vacancies_list.append(vacancy_info)
 
@@ -37,9 +37,12 @@ def user_interaction():
         ranged_vacancies = get_vacancies_by_salary(filtered_vacancies, salary_range)
         sorted_vacancies = sort_vacancies(ranged_vacancies)
         top_vacancies = get_top_vacancies(sorted_vacancies, top_n)
+        with open('vacancies.json', 'w') as f:
+            json.dump([vacancy.to_json() for vacancy in top_vacancies if isinstance(vacancy, Vacancy)], f)
         print_vacancies(top_vacancies)
     else:
         print("Не удалось получить вакансии. Пожалуйста, проверьте запрос и попробуйте снова.")
+
 
 
 if __name__ == "__main__":

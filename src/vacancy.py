@@ -2,6 +2,7 @@ import json
 
 
 class Vacancy:
+    """Конструктор класса"""
     def __init__(self, title, link, salary, description):
         self.title = title
         self.link = link
