@@ -18,15 +18,15 @@ class TestJSONSaverClass(unittest.TestCase):
 
 class TestVacancyClass(unittest.TestCase):
     def test_vacancy_creation(self):
-        vacancy = Vacancy("Python Developer", "работа.ру", "100000-150000", "опыт от 3-х лет")
+        vacancy = Vacancy("Python Developer", "работа.ру", 100000-150000, "опыт от 3-х лет")
 
         self.assertEqual(vacancy.title, "Python Developer")
         self.assertEqual(vacancy.link, "работа.ру")
-        self.assertEqual(vacancy.salary, "100000-150000")
+        self.assertEqual(vacancy.salary, 100000-150000)
         self.assertEqual(vacancy.description, "опыт от 3-х лет")
 
     def test_vacancy_creation_with_missing_salary(self):
-        vacancy = Vacancy("Python Developer", "работа.ру", None, "опыт от 3-х лет")
+        vacancy = Vacancy("Python Developer", "работа.ру", "", "опыт от 3-х лет")
 
         self.assertEqual(vacancy.salary, "Зарплата не указана")
 
