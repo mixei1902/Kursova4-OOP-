@@ -7,14 +7,15 @@ class Vacancy:
         self.title = title
         self.link = link
         self.description = description
-        self.salary = salary
+        # self.salary = salary
+
         # Проверяем, что salary - это число или None
-        # try:
-        #     self.salary = int(salary)
-        # except ValueError:
-        #     self.salary = None
-        if salary is None or not isinstance(salary, (str, int, float)):
+        try:
+            self.salary = int(salary)
+        except ValueError:
             self.salary = "Зарплата не указана"
+        # if salary is None or not isinstance(salary, (str, int, float)):
+        #     self.salary = "None"
 
     def __str__(self):
         return f"{self.title}\nЗарплата: {self.salary}\nСсылка: {self.link}\nОписание: {self.description}\n"
