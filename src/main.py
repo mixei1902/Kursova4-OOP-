@@ -1,4 +1,5 @@
 import json
+
 from src.APIHeadHunter import HeadHunterAPI
 from src.utils import filter_vacancies, get_vacancies_by_salary, sort_vacancies, get_top_vacancies
 from src.utils import print_vacancies
@@ -6,17 +7,17 @@ from src.vacancy import Vacancy
 
 
 def user_interaction():
-    # platforms = ["HeadHunter"]
     search_query = input("Введите поисковый запрос: ")
     top_n = int(input("Введите количество вакансий для вывода в топ N: "))
-    filter_words = input("Введите ключевые слова для фильтрации вакансий: ").split()
     salary_range = input("Введите диапазон зарплат (пример: 100000-150000): ")
+    filter_words = (input("Введите ключевые слова для фильтрации вакансий: "))
 
     hh_api = HeadHunterAPI()
     hh_vacancies = hh_api.get_vacancies(search_query)
-    print(hh_vacancies)# список формируется
+    print(hh_vacancies)  # список формируется
 
     if hh_vacancies and 'items' in hh_vacancies:
+        print("Список вакансий получен.")
         vacancies_list = []
         for vacancy_info in hh_vacancies['items']:
             if isinstance(vacancy_info, dict):
@@ -42,7 +43,6 @@ def user_interaction():
         print_vacancies(top_vacancies)
     else:
         print("Не удалось получить вакансии. Пожалуйста, проверьте запрос и попробуйте снова.")
-
 
 
 if __name__ == "__main__":

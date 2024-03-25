@@ -6,12 +6,13 @@ class Vacancy:
     def __init__(self, title, link, salary, description):
         self.title = title
         self.link = link
-        self.salary = salary
         self.description = description
 
-        # Валидация данных
-        if not isinstance(self.salary, (str, int, float)):
-            self.salary = "Зарплата не указана"
+        # Проверяем, что salary - это число или None
+        try:
+            self.salary = int(salary)
+        except ValueError:
+            self.salary = None
 
     def __str__(self):
         return f"{self.title}\nЗарплата: {self.salary}\nСсылка: {self.link}\nОписание: {self.description}\n"

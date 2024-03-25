@@ -17,6 +17,7 @@ class AbstractVacancySaver(ABC):
 
 
 class JSONSaver(AbstractVacancySaver):
+    """Класс сохранения данных в json файл"""
     def __init__(self, file_path="vacancies.json"):
         self.file_path = file_path
 
