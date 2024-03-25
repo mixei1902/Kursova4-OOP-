@@ -31,8 +31,8 @@ class TestVacancyClass(unittest.TestCase):
         self.assertEqual(vacancy.salary, "Зарплата не указана")
 
     def test_vacancy_comparison(self):
-        vacancy1 = Vacancy("Python Developer", "example1.com", "100000", "Experience: 3 years")
-        vacancy2 = Vacancy("Python Developer", "example2.com", "120000", "Experience: 5 years")
+        vacancy1 = Vacancy("Python Developer", "example1.com", 100000, "Experience: 3 years")
+        vacancy2 = Vacancy("Python Developer", "example2.com", 120000, "Experience: 5 years")
 
         self.assertLess(vacancy1, vacancy2)
 
