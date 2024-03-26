@@ -18,12 +18,20 @@ class AbstractVacancySaver(ABC):
 
 class JSONSaver(AbstractVacancySaver):
     """Класс сохранения данных в json файл"""
+
     def __init__(self, file_path="vacancies.json"):
         self.file_path = file_path
 
     def add_vacancy(self, vacancy):
-        with open(self.file_path, 'a') as file:
-            json.dump(vars(vacancy), file)
+        with open(self.file_path, 'a', encoding='utf-8') as file:
+            vacancy_info = {
+                "Название": vacancy.title,
+                "Ссылка": vacancy.link,
+                "Зарплата": f"{vacancy.min_salary}-{vacancy.max_salary}" if vacancy.max_salary is not None else vacancy.min_salary,
+                "Описание": vacancy.description,
+                "Адрес": vacancy.address if vacancy.address is not None else "Не указан"
+            }
+            json.dump(vacancy_info, file, ensure_ascii=False)
             file.write('\n')
 
     def delete_vacancy(self, vacancy):

@@ -4,6 +4,7 @@ from src.APIHeadHunter import HeadHunterAPI
 from src.utils import filter_vacancies, get_vacancies_by_salary, sort_vacancies, get_top_vacancies
 from src.utils import print_vacancies
 from src.vacancy import Vacancy
+from src.vacancy_save import JSONSaver
 
 
 def user_interaction():
@@ -14,7 +15,6 @@ def user_interaction():
 
     hh_api = HeadHunterAPI()
     hh_vacancies = hh_api.get_vacancies(search_query)
-    print(hh_vacancies)  # список формируется
 
     if hh_vacancies and 'items' in hh_vacancies:
         print("Список вакансий получен.")
@@ -28,7 +28,7 @@ def user_interaction():
                     salary_from = salary_info.get('from', 'Зарплата не указана')
                 else:
                     salary_from = 'Зарплата не указана'
-                description = vacancy_info.get('description', 'Описание отсутствует')
+                description = vacancy_info.get('snippet', {}).get('responsibility', 'Описание отсутствует')
                 address = vacancy_info.get('address', 'Адрес не указан')
                 vacancy = Vacancy(name, alternate_url, salary_from, description, address)
                 vacancies_list.append(vacancy)
@@ -40,8 +40,10 @@ def user_interaction():
         sorted_vacancies = sort_vacancies(ranged_vacancies)
         top_vacancies = get_top_vacancies(sorted_vacancies, top_n)
 
-        with open('vacancies.json', 'w') as f:
-            json.dump([vacancy.to_json() for vacancy in top_vacancies if isinstance(vacancy, Vacancy)], f, indent=4)
+        # Используем класс JSONSaver для сохранения вакансий
+        json_saver = JSONSaver()
+        for vacancy in top_vacancies:
+            json_saver.add_vacancy(vacancy)
 
         print_vacancies(top_vacancies)
     else:

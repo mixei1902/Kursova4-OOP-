@@ -2,7 +2,7 @@ import json
 
 
 class Vacancy:
-    """Конструктор класса"""
+    """Класс для представления информации о вакансии"""
 
     def __init__(self, title, link, salary, description, address=None):
         self.title = title
@@ -22,7 +22,7 @@ class Vacancy:
             try:
                 self.min_salary = int(salary)
                 self.max_salary = int(salary)
-            except ValueError:
+            except (ValueError, TypeError):
                 self.min_salary = None
                 self.max_salary = None
 
@@ -37,16 +37,8 @@ class Vacancy:
         data = json.loads(json_str)
         return Vacancy(data['title'], data['link'], data['salary'], data['description'], data['address'])
 
-    def to_json(self):
-        return {
-            "Название": self.title,
-            "Описание": self.description or 'Описание отсутствует',
-            "Ссылка": self.link or 'Не указана',
-            "Зарплата от": self.min_salary if self.min_salary is not None else 'Не указана',
-            "Зарплата до": self.max_salary if self.max_salary is not None else 'Не указана',
-            "Адресс": self.address
-        }
-        # def to_json(self):
+
+    # def to_json(self):
         #     return json.dumps(self.__dict__)
 
         # @staticmethod

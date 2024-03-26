@@ -1,6 +1,7 @@
 def filter_vacancies(vacancies, filter_words):
     """Фильтрует вакансии на основе указанных ключевых слов"""
     return [vacancy for vacancy in vacancies if
+            vacancy.description and
             any(word.lower() in vacancy.description.lower() for word in filter_words)]
 
 
@@ -39,4 +40,3 @@ def print_vacancies(vacancies):
             print()
     else:
         print("Нет подходящих вакансий")
-
