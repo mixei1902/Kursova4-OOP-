@@ -5,20 +5,18 @@ def filter_vacancies(vacancies, filter_words):
 
 
 def get_vacancies_by_salary(vacancies, salary_range):
-    """Фильтрация вакансий на основе диапазона зарплат"""
     if not salary_range:
         return vacancies
 
     min_salary, max_salary = map(int, salary_range.split('-'))
 
     return [vacancy for vacancy in vacancies if
-            (vacancy.salary >= min_salary if vacancy.salary is not None else False) and
-            (vacancy.salary <= max_salary if vacancy.salary is not None else False)]
+            (vacancy.min_salary is not None and vacancy.min_salary >= min_salary) and
+            (vacancy.max_salary is not None and vacancy.max_salary <= max_salary)]
 
 
 def sort_vacancies(vacancies):
-    """Сортирует вакансии на основе зарплаты в порядке убывания"""
-    return sorted(vacancies, key=lambda vacancy: vacancy.salary or 0, reverse=True)
+    return sorted(vacancies, key=lambda vacancy: vacancy.min_salary or 0, reverse=True)
 
 
 def get_top_vacancies(vacancies, top_n):
@@ -31,7 +29,7 @@ def print_vacancies(vacancies):
         for index, vacancy in enumerate(vacancies, start=1):
             print(f"Вакансия {index}:")
             print(f"Название: {vacancy.title}")
-            print(f"Зарплата от: {vacancy.salary or 'Не указана'}")
+            print(f"Зарплата от: {vacancy.min_salary or 'Не указана'}")
             print(f"Описание: {vacancy.description or 'Отсутствует'}")
             print(f"Ссылка: {vacancy.link or 'Не указана'}")
             print()

@@ -10,7 +10,7 @@ def user_interaction():
     search_query = input("Введите поисковый запрос: ")
     top_n = int(input("Введите количество вакансий для вывода в топ N: "))
     salary_range = input("Введите диапазон зарплат (пример: 100000-150000): ")
-    filter_words = (input("Введите ключевые слова для фильтрации вакансий: "))
+    filter_words = input("Введите ключевые слова для фильтрации вакансий: ")
 
     hh_api = HeadHunterAPI()
     hh_vacancies = hh_api.get_vacancies(search_query)
@@ -38,8 +38,10 @@ def user_interaction():
         ranged_vacancies = get_vacancies_by_salary(filtered_vacancies, salary_range)
         sorted_vacancies = sort_vacancies(ranged_vacancies)
         top_vacancies = get_top_vacancies(sorted_vacancies, top_n)
+
         with open('vacancies.json', 'w') as f:
-            json.dump([vacancy.to_json() for vacancy in top_vacancies if isinstance(vacancy, Vacancy)], f)
+            json.dump([vacancy.to_json() for vacancy in top_vacancies if isinstance(vacancy, Vacancy)], f, indent=4)
+
         print_vacancies(top_vacancies)
     else:
         print("Не удалось получить вакансии. Пожалуйста, проверьте запрос и попробуйте снова.")
