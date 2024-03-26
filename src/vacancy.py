@@ -4,10 +4,11 @@ import json
 class Vacancy:
     """Конструктор класса"""
 
-    def __init__(self, title, link, salary, description):
+    def __init__(self, title, link, salary, description, address=None):
         self.title = title
         self.link = link
         self.description = description
+        self.address = address
         if isinstance(salary, str) and '-' in salary:
             salary_range = salary.split('-')
             try:
@@ -26,7 +27,7 @@ class Vacancy:
                 self.max_salary = None
 
     def __str__(self):
-        return f"{self.title}\nЗарплата: {self.salary}\nСсылка: {self.link}\nОписание: {self.description}\n"
+        return f"{self.title}\nЗарплата: {self.salary}\nСсылка: {self.link}\nОписание: {self.description}\nАдресс: {self.address}"
 
     def __lt__(self, other):
         return self.min_salary < other.salary
@@ -34,7 +35,7 @@ class Vacancy:
     @staticmethod
     def from_json(json_str):
         data = json.loads(json_str)
-        return Vacancy(data['title'], data['link'], data['salary'], data['description'])
+        return Vacancy(data['title'], data['link'], data['salary'], data['description'], data['address'])
 
     def to_json(self):
         return {
@@ -42,7 +43,8 @@ class Vacancy:
             "Описание": self.description or 'Описание отсутствует',
             "Ссылка": self.link or 'Не указана',
             "Зарплата от": self.min_salary if self.min_salary is not None else 'Не указана',
-            "Зарплата до": self.max_salary if self.max_salary is not None else 'Не указана'
+            "Зарплата до": self.max_salary if self.max_salary is not None else 'Не указана',
+            "Адресс": self.address
         }
         # def to_json(self):
         #     return json.dumps(self.__dict__)

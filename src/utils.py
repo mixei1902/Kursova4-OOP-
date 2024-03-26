@@ -32,6 +32,11 @@ def print_vacancies(vacancies):
             print(f"Зарплата от: {vacancy.min_salary or 'Не указана'}")
             print(f"Описание: {vacancy.description or 'Отсутствует'}")
             print(f"Ссылка: {vacancy.link or 'Не указана'}")
+            if vacancy.address:
+                print(f"Адрес: {vacancy.address['raw']}")
+            else:
+                print("Адрес: Не указан")
             print()
     else:
         print("Нет подходящих вакансий")
+

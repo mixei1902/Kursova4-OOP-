@@ -29,7 +29,8 @@ def user_interaction():
                 else:
                     salary_from = 'Зарплата не указана'
                 description = vacancy_info.get('description', 'Описание отсутствует')
-                vacancy = Vacancy(name, alternate_url, salary_from, description)
+                address = vacancy_info.get('address', 'Адрес не указан')
+                vacancy = Vacancy(name, alternate_url, salary_from, description, address)
                 vacancies_list.append(vacancy)
             elif isinstance(vacancy_info, Vacancy):
                 vacancies_list.append(vacancy_info)
